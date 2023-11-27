@@ -1,19 +1,84 @@
 /* Se utiliza el mini framework de express */
 const express = require('express');
-/* Generamos router especifico para productos */
+
+/* Generamos router especifico para usuarios */
 const router = express.Router();
 
-/* Query params api/products?page=1&offset=0 */
-router.get('/', (request, response) => {
-  const { limit, offset } = request.query;
-  if (limit && offset) {
-    response.json({
-      limit,
-      offset
-    });
-  } else {
-    response.send('No hay registros')
+/* Capa de servicios de usuarios */
+const UserService = require('./../services/user.service');
+
+/* Middleware para validar la data envida */
+const validatorHandler = require('../middlewares/validator.handler');
+
+/* Esquemas  */
+const { updateUserSchema, createUserSchema, getUserSchema } = require('./../schemas/user.schema');
+
+/* Instanciamos la clase de user */
+const service = new UserService();
+
+/* Obtener todos los usuarios */
+router.get('/', async (request, response, next) => {
+  try {
+    const users = await service.findAll();
+    response.json(users);
+  } catch (error) {
+    next(error);
   }
 });
 
+router.get('/:id',
+  validatorHandler(getUserSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const category = await service.findOne(id);
+      res.json(category);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.post('/',
+  validatorHandler(createUserSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const newCategory = await service.create(body);
+      res.status(201).json(newCategory);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.patch('/:id',
+  validatorHandler(getUserSchema, 'params'),
+  validatorHandler(updateUserSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const body = req.body;
+      const category = await service.update(id, body);
+      res.json(category);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.delete('/:id',
+  validatorHandler(getUserSchema, 'params'),
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      await service.delete(id);
+      res.status(201).json({id});
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 module.exports = router;
+

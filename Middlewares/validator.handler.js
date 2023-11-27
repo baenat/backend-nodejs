@@ -21,6 +21,6 @@ property:
 
 request.body          => { data: data }
 request.params        => product/id
-request.query         => queryParams   => product?name='name'&other='otherParam'
+request.query         => (queryParams)   => product?name='name'&other='otherParam'
 
 */

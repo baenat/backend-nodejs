@@ -167,4 +167,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# PostgreSQL
+db_postgres
+
 # End of https://www.toptal.com/developers/gitignore/api/node,windows

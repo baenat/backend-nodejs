@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+
+  # servicio para correr postgres
+  postgres:
+    container_name: db
+    image: postgres
+    environment:
+      - POSTGRES_DB=my_store
+      - POSTGRES_USER=baenat
+      - POSTGRES_PASSWORD=admin123
+    ports:
+      - 5432:5432
+    volumes:
+      - db_postgres:/var/lib/postgresql/data
+
+  # Servicio para correr motor grafico de pgAdmin
+  pgadmin:
+    depends_on:
+      - postgres
+    container_name: pgAdmin
+    image: dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@mail.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    ports:
+      - 5050:80
+
+volumes:
+  db_postgres:
+    external: true
+
+
+
+
+
+
+
+
+
+
+
+
+# version: "3.1"
+
+# services:
+#   wordpress:
+#     image: postgres
+#     restart: always
+#     ports:
+#       - 5432
+#     environment:
+#       POSTGRES_DB: my_store #${DB_NAME}
+#       POSTGRES_USER: baenat #${DB_USER}
+#       POSTGRES_PASSWORD: admin123 #${DB_PASSWORD}
+#     volumes:
+#       - ./db_postgres:/var/lib/postgresql/data

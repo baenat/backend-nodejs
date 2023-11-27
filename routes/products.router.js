@@ -1,11 +1,11 @@
 /* Se utiliza el mini framework de express */
 const express = require('express');
 
-/* Capa de servicios */
+/* Capa de servicios de productos */
 const ProductService = require('./../services/product.service');
 
 /* Middleware para validar la data envida */
-const validatorHandler = require('./../Middlewares/validator.handler');
+const validatorHandler = require('../middlewares/validator.handler');
 
 /* Esquemas  */
 const { createProductSchema, getProductoSchema, updateProductSchema, deleteProductSchema } = require('./../schemas/product.schema');
@@ -13,7 +13,7 @@ const { createProductSchema, getProductoSchema, updateProductSchema, deleteProdu
 /* Generamos router especifico para productos */
 const router = express.Router();
 
-/* Instanciamos la clase de servicio */
+/* Instanciamos la clase de producto */
 const service = new ProductService();
 
 /* Obtener todos los productos */

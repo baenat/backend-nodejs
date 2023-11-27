@@ -1,3 +1,5 @@
+/* Servicios logica de negocio */
+
 /* Libreria que nos va a permitir tener data fake */
 const { faker } = require('@faker-js/faker');
 
